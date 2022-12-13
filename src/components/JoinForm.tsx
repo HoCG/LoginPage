@@ -1,11 +1,11 @@
-import React , { useState }from 'react';
-import { AppDispatch } from '../store/index'
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { AppDispatch } from '../store/index'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
-import { asyncLoginFetch } from '../store/user';
+import { asyncJoinFetch } from '../store/user';
 
-const LoginFormContainer = styled.div`
+const JoinFormContainer = styled.div`
 width: 500px;
 height: 350px;
 border-radius: 25px;
@@ -17,18 +17,23 @@ flex-direction: column;
 `;
 
 const Input = styled.input`
+width: 300px;
 border: 2px solid black;
 `;
 
+const InputContainer = styled.div`
+display: flex;
+justify-content: right;
+flex-direction: row;
+`;
+
 const ButtonContainer = styled.div`
-margin-top: 20px;
 display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: row;
 `
-
-const LoginBtn = styled.div`
+const JoinBtn = styled.div`
 width: 130px;
 height: 80px;
 border-radius: 25px;
@@ -39,19 +44,19 @@ margin-right: 20px;
 cursor: pointer;
 `;
 
-const LoginForm: React.FC = () => {
+const JoinForm:React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [account, setAccount] = useState({
     email: "",
+    nick: "",
     password: "",
   });
-  const login = async () => {
-    await dispatch(asyncLoginFetch({userEmail: account.email, password: account.password}));
-    navigate("/");
+  const join = async () => {
+    dispatch(asyncJoinFetch({userEmail: account.email, userNick: account.nick, password: account.password}));
   }
-  const makeAccount = () => {
-    navigate('/join');
+  const backToLogin = () => {
+    navigate('/');
   }
   const onChangeAccount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAccount({
@@ -60,26 +65,30 @@ const LoginForm: React.FC = () => {
     });
   };
   return (
-    <LoginFormContainer>
+    <JoinFormContainer>
       <h2>로그인 화면</h2>
-      <div>
+      <InputContainer>
         <div>이메일</div>
         <Input name="email" onChange={onChangeAccount}  type="text" />
-      </div>
-      <div>
+      </InputContainer>
+      <InputContainer>
+        <div>닉네임</div>
+        <Input name="nick" onChange={onChangeAccount}  type="text" />
+      </InputContainer>
+      <InputContainer>
         <div>패스워드</div>
         <Input name="password" onChange={onChangeAccount} type="password" />
-      </div>
+      </InputContainer>
       <ButtonContainer>
-        <LoginBtn onClick={login}>
-          <h1>로그인</h1>
-        </LoginBtn>
-        <LoginBtn onClick={makeAccount}>
+        <JoinBtn onClick={join}>
           <h1>회원가입</h1>
-        </LoginBtn>
+        </JoinBtn>
+        <JoinBtn onClick={backToLogin}>
+          <h1>돌아가기</h1>
+        </JoinBtn>
       </ButtonContainer>
-    </LoginFormContainer>
+    </JoinFormContainer>
   );
 }
 
-export default LoginForm;
+export default JoinForm;

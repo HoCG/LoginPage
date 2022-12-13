@@ -1,8 +1,9 @@
 import React from 'react';
-import './App.css';
 import LoginPage from './pages/LoginPage';
-import { Route, Routes } from 'react-router-dom';
+import JoinPage from './pages/JoinPage';
 import AuthRoute from './AuthRoute';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
 
 const App: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<AuthRoute/>}></Route>
         <Route path="login" element={<LoginPage/>} />
+        <Route path="join" element={<JoinPage/>} />
       </Routes>
     </div>
   );

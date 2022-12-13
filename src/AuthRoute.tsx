@@ -1,13 +1,13 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { getCookie } from './apis/cookie';
 import MainPage from "./pages/MainPage";
 const AuthRoute = () => {
-  let isAuthorized = getCookie("isAuthorized");
-  useEffect(() => { isAuthorized = getCookie("isAuthorized") });
+  let isAuthorized = getCookie();
+  console.log(isAuthorized)
   return (
-    !isAuthorized ? <Navigate to="/login" /> : <MainPage/>
+    !isAuthorized || isAuthorized === "undefined" ? <Navigate to="/login" /> : <MainPage/>
   );
 }
 export default AuthRoute;

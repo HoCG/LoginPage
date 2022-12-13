@@ -1,18 +1,20 @@
-import { Cookies } from "react-cookie";
+import Cookies from 'universal-cookie';
 //import * as jwt from 'jsonwebtoken';
 
 const cookies = new Cookies();
 
-export const setCookie = (value: string) => {
+export const updateCookie = () => {
   const today = new Date();
-  const expireDate = today.setDate(today.getDate() + 7);
-  return cookies.set('access_token', value, { expires: new Date(expireDate) });
+  const expireDate = today.setMinutes(today.getMinutes() + 10);
+  if (getCookie()){
+    cookies.set('access_token', cookies.get('access_token'), { expires: new Date(expireDate) });
+  }
 };
 
 export const removeCookie = (name: string) => {
   cookies.remove(name);
 };
 
-export const getCookie = (name: string) => {
-  return cookies.get(name)
+export const getCookie = () => {
+  return cookies.get('access_token')
 };
