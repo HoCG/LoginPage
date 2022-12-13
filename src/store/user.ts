@@ -4,11 +4,6 @@ import { updateCookie } from '../apis/cookie';
 
 type userInfo = {
   userEmail: string,
-  password: string
-}
-
-type joinUserInfo = {
-  userEmail: string,
   userNick: string,
   password: string
 }
@@ -16,10 +11,13 @@ type joinUserInfo = {
 const asyncLoginFetch = createAsyncThunk(
   'counterSlice/asyncLoginFetch',
   async (userInfo: userInfo) => {
-    let user = {};
+    let user = {
+      userEmail: ``,
+      userNick: ``,
+      password: ``
+    };
     await login(userInfo.userEmail, userInfo.password).then((res) => {
-      updateCookie();
-      user = res.data;
+      return res.data as userInfo;
     })
     return user;
   }
@@ -27,10 +25,14 @@ const asyncLoginFetch = createAsyncThunk(
 
 const asyncJoinFetch = createAsyncThunk(
   'counterSlice/asyncJoinFetch',
-  async (userInfo: joinUserInfo) => {
-    let user = {};
+  async (userInfo: userInfo) => {
+    let user = {
+      userEmail: ``,
+      userNick: ``,
+      password: ``
+    };
     await join(userInfo.userEmail, userInfo.userNick, userInfo.password).then((res) => {
-      return res.data;
+      return res.data as userInfo;
     })
     return user;
   }
@@ -39,21 +41,28 @@ const asyncJoinFetch = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    user: {}
+    user: {
+      userEmail: ``,
+      userNick: ``,
+      password: ``
+    }
   },
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
     },
     deleteUser: (state) => {
-      state.user = {};
+      state.user = {
+        userEmail: ``,
+        userNick: ``,
+        password: ``
+      };
     },
   },
   extraReducers: (builder) => {
     builder.addCase(asyncLoginFetch.pending, (state, action) => {})
     builder.addCase(asyncLoginFetch.fulfilled, (state, action)=>{
       state.user = action.payload;
-      console.log(state.user);
     })
     builder.addCase(asyncJoinFetch.pending, (state, action) => {})
     builder.addCase(asyncJoinFetch.fulfilled, (state, action)=>{

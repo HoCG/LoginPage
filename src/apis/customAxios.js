@@ -12,7 +12,6 @@ const customAxios = axios.create({
   },
 });
 customAxios.interceptors.request.use((config) => {
-  updateCookie();
   return config
 }); 
 customAxios.interceptors.response.use((config) => {
