@@ -43,8 +43,12 @@ margin-left: 20px;
 margin-right: 20px;
 cursor: pointer;
 `;
+type propsType = {
+  setDialog: React.Dispatch<React.SetStateAction<boolean>>,
+};
 
-const JoinForm:React.FC = () => {
+
+const JoinForm: React.FC<propsType> = ({setDialog}) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [account, setAccount] = useState({
@@ -54,6 +58,7 @@ const JoinForm:React.FC = () => {
   });
   const join = async () => {
     dispatch(asyncJoinFetch({userEmail: account.email, userNick: account.nick, password: account.password}));
+    setDialog(true);
   }
   const backToLogin = () => {
     navigate('/');

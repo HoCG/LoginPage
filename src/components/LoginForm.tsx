@@ -47,7 +47,7 @@ const LoginForm: React.FC = () => {
     password: "",
   });
   const login = async () => {
-    await dispatch(asyncLoginFetch({userEmail: account.email, password: account.password}));
+    await dispatch(asyncLoginFetch({userEmail: account.email, userNick: '', password: account.password}));
     navigate("/");
   }
   const makeAccount = () => {

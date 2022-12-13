@@ -39,13 +39,17 @@ font-weight: 800;
 
 type propsType = {
   text: string,
+  setDialog: React.Dispatch<React.SetStateAction<boolean>>,
 };
 
-const TextDialog: React.FC<propsType> = ({ text }) => {
+const TextDialog: React.FC<propsType> = ({ text, setDialog }) => {
+  const closeDialog = () => {
+    setDialog(false);
+  }
   return (
     <DialogBackground>
       <DialogContainer>
-        <DefaultCloseBtn></DefaultCloseBtn>
+        <DefaultCloseBtn onClick={closeDialog}></DefaultCloseBtn>
         <DialogText>
           {text}
         </DialogText>
