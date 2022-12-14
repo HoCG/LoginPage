@@ -27,6 +27,7 @@ const LoginForm: React.FC<propsType> = ({dialogController, setDialogText}) => {
   });
   //토큰삭제이후 로그인 페이지로 왔을 경우
   useEffect(() => {
+    //비동기로직 실행을 위한 선언.
     async function logoutCheck() {
       if(user.id && !getCookie()){
         await dispatch(asyncLogoutFetch());

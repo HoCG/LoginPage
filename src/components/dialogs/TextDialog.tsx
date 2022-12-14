@@ -1,6 +1,29 @@
 import React from 'react';
 import styled from 'styled-components';
 
+type propsType = {
+  text: string,
+  dialogController: (dialogStatus: boolean) => void,
+};
+
+const TextDialog: React.FC<propsType> = ({ text, dialogController }) => {
+  const closeDialog = () => {
+    dialogController(false);
+  }
+  return (
+    <DialogBackground>
+      <DialogContainer>
+        <DefaultCloseBtn onClick={ closeDialog }></DefaultCloseBtn>
+        <DialogText>
+          {text}
+        </DialogText>
+      </DialogContainer>
+    </DialogBackground>
+  );
+};
+
+export default TextDialog;
+
 const Centering = styled.div`
 display: flex;
 justify-content: center;
@@ -39,26 +62,3 @@ height: 50px;
 const DialogText = styled(Centering)`
 font-weight: 800;
 `;
-
-type propsType = {
-  text: string,
-  dialogController: (dialogStatus: boolean) => void,
-};
-
-const TextDialog: React.FC<propsType> = ({ text, dialogController }) => {
-  const closeDialog = () => {
-    dialogController(false);
-  }
-  return (
-    <DialogBackground>
-      <DialogContainer>
-        <DefaultCloseBtn onClick={ closeDialog }></DefaultCloseBtn>
-        <DialogText>
-          {text}
-        </DialogText>
-      </DialogContainer>
-    </DialogBackground>
-  );
-};
-
-export default TextDialog;

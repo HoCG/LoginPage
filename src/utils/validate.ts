@@ -22,7 +22,7 @@ const validateEmail = (email: string) => {
 const validateNick = (nick: string) => {
   if(nick) {
     const patternCnt = [
-      //{ type: /^(?=.*?[가-힣])/ },
+      { type: /^(?=.*?[가-힣])/ },
       { type: /^.{3,8}$/ }
     ].filter((item) => {
       return item.type.test(nick)

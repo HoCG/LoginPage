@@ -8,6 +8,7 @@ import { getCookie } from '../apis/cookie';
 
 const JoinPage: React.FC = () => {
   const [dialog, setDialog] = useState(false);
+  //로그인 성공시에만 MainPage로 넘어갈 수 있게하기 위해서.
   const [dialogSuccess, setDialogSuccess] = useState(false);
   const [dialogText, setDialogText] = useState(``);
   const isAuthorized = getCookie();
