@@ -25,6 +25,7 @@ height: 300px;
 `;
 
 const DefaultCloseBtn = styled.div`
+cursor: pointer;
 border: 5px solid black;
 position: absolute;
 bottom: 90%;

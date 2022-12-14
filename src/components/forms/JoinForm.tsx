@@ -4,13 +4,15 @@ import { AppDispatch } from '../../store/index'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
 import { asyncJoinFetch } from '../../store/user';
+import { validateEmail, validatePassword, validateNick } from '../../utils/validate';
 
 type propsType = {
   dialogController: (dialogStatus: boolean) => void,
+  setDialogText: React.Dispatch<React.SetStateAction<string>>
+  setDialogSuccess: React.Dispatch<React.SetStateAction<boolean>>
 };
 
-
-const JoinForm: React.FC<propsType> = ({dialogController}) => {
+const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDialogSuccess}) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [account, setAccount] = useState({
@@ -18,15 +20,37 @@ const JoinForm: React.FC<propsType> = ({dialogController}) => {
     nick: "",
     password: "",
   });
+  const joinValidate = () => {
+    if(!(account.email && account.password)) {
+      setDialogText("이메일 비밀번호를 입력해주세요.")
+      dialogController(true);
+      return;
+    }
+    if(validateEmail(account.email)){
+      return;
+    }
+    if(validateNick(account.nick)){
+      return;
+    }
+    if(validatePassword(account.password)){
+      return;
+    }
+    join();
+  }
   const join = async () => {
     await dispatch(asyncJoinFetch({
       id: NaN, email: account.email, nick: account.nick, password: account.password
     }))
     .unwrap()
     .then(() => { 
+      setDialogText(`회원가입이 성공했습니다. 축하드려요!`);
+      setDialogSuccess(true);
       dialogController(true);
     })
-    .catch((err) => console.log(err));;
+    .catch((err) => {
+      setDialogText(`내부오류`);
+      dialogController(true);
+    });;
   }
   const backToLogin = () => {
     navigate('/');
@@ -44,16 +68,19 @@ const JoinForm: React.FC<propsType> = ({dialogController}) => {
         <InputText>이메일:</InputText>
         <Input name="email" onChange={onChangeAccount}  type="text" />
       </InputContainer>
+      <ValidateText>{validateEmail(account.email)}</ValidateText>
       <InputContainer>
         <InputText>닉네임:</InputText>
         <Input name="nick" onChange={onChangeAccount}  type="text" />
       </InputContainer>
+      <ValidateText>{validateNick(account.nick)}</ValidateText>
       <InputContainer>
         <InputText>패스워드:</InputText>
         <Input name="password" onChange={onChangeAccount} type="password" />
       </InputContainer>
+      <ValidateText>{validatePassword(account.password)}</ValidateText>
       <ButtonContainer>
-        <JoinBtn onClick={join}>
+        <JoinBtn onClick={joinValidate}>
           <h1>회원가입</h1>
         </JoinBtn>
         <JoinBtn onClick={backToLogin}>
@@ -66,6 +93,10 @@ const JoinForm: React.FC<propsType> = ({dialogController}) => {
 
 export default JoinForm;
 
+const ValidateText = styled.div`
+color: red;
+font-size: x-small;
+`;
 
 const JoinFormContainer = styled.div`
 width: 500px;
@@ -111,4 +142,5 @@ font-weight: 700;
 margin-left: 20px;
 margin-right: 20px;
 cursor: pointer;
+user-select: none;
 `;

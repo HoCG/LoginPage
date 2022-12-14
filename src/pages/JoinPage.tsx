@@ -7,24 +7,27 @@ import { Navigate } from "react-router-dom";
 import { getCookie } from '../apis/cookie';
 
 const JoinPage: React.FC = () => {
+  const [dialog, setDialog] = useState(false);
+  const [dialogSuccess, setDialogSuccess] = useState(false);
+  const [dialogText, setDialogText] = useState(``);
   const isAuthorized = getCookie();
-  const [dialog, setDialog] = useState(false)
   const navigate = useNavigate();
   const dialogController = (dialogStatus: boolean) => {
     if (dialogStatus) {
       return setDialog(dialogStatus)
-    } else {
-      navigate('/')
+    }
+    if(dialogSuccess) {
+      navigate('/');
       return setDialog(dialogStatus)
     }
+    return setDialog(dialogStatus)
   };
-  const joinText = `회원가입이 성공했습니다. 축하드려요!`
   return (
     !isAuthorized || isAuthorized === "undefined" ?
     <JoinPageDiv>
-      <JoinForm dialogController={ dialogController }></JoinForm>
+      <JoinForm dialogController={ dialogController } setDialogText={ setDialogText } setDialogSuccess={setDialogSuccess}></JoinForm>
       {
-        dialog && <TextDialog dialogController={ dialogController } text={joinText}></TextDialog>
+        dialog && <TextDialog dialogController={ dialogController } text={dialogText}></TextDialog>
       }
     </JoinPageDiv> : <Navigate to="/"/>
   );
