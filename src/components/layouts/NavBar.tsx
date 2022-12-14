@@ -52,7 +52,7 @@ flex-direction: row;
 const NavBarTitleContainer = styled.div`
 font-weight: 800;
 font-size: larger;
-width: 85vw;
+width: 80vw;
 `;
 
 const NavBarMenuHandler = styled.div`
@@ -65,11 +65,12 @@ justify-content: center;
 align-items: center;
 flex-direction: row;
 font-weight: 800;
-width: 10vw;
+width: 15vw;
 `;
 
 const LogoutBtn = styled.div`
 cursor: pointer;
+user-select: none;
 background-color: white;
 font-weight: 800;
 border-radius: 20px;
