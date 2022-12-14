@@ -10,7 +10,7 @@ import { RootState } from '../../store';
 
 const NavBar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const  navigate = useNavigate();
+  const navigate = useNavigate();
   const user = useSelector((state: RootState) => {
     return state.userStore.user;
   });
