@@ -57,6 +57,11 @@ const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDial
   const backToLogin = () => {
     navigate('/');
   }
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement> ) => {
+    if (e.key === 'Enter') {
+      join(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
   const onChangeAccount = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAccount({
       ...account,
@@ -68,17 +73,17 @@ const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDial
       <h2>회원가입</h2>
       <InputContainer>
         <InputText>이메일:</InputText>
-        <Input name="email" onChange={onChangeAccount}  type="text" />
+        <Input name="email" onKeyPress={handleOnKeyPress} onChange={onChangeAccount}  type="text" />
       </InputContainer>
       <ValidateText>{validateEmail(account.email)}</ValidateText>
       <InputContainer>
         <InputText>닉네임:</InputText>
-        <Input name="nick" onChange={onChangeAccount}  type="text" />
+        <Input name="nick" onKeyPress={handleOnKeyPress} onChange={onChangeAccount}  type="text" />
       </InputContainer>
       <ValidateText>{validateNick(account.nick)}</ValidateText>
       <InputContainer>
         <InputText>패스워드:</InputText>
-        <Input name="password" onChange={onChangeAccount} type="password" />
+        <Input name="password" onKeyPress={handleOnKeyPress} onChange={onChangeAccount} type="password" />
       </InputContainer>
       <ValidateText>{validatePassword(account.password)}</ValidateText>
       <ButtonContainer>
