@@ -20,7 +20,7 @@ const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDial
     nick: "",
     password: "",
   });
-  const joinValidate = () => {
+  const join = async () => {
     if(!(account.email && account.password)) {
       setDialogText("이메일 비밀번호를 입력해주세요.")
       dialogController(true);
@@ -35,9 +35,6 @@ const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDial
     if(validatePassword(account.password)){
       return;
     }
-    join();
-  }
-  const join = async () => {
     await dispatch(asyncJoinFetch({
       id: NaN, email: account.email, nick: account.nick, password: account.password
     }))
@@ -48,8 +45,13 @@ const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDial
       dialogController(true);
     })
     .catch((err) => {
-      setDialogText(`내부오류`);
-      dialogController(true);
+      if(err.message) {
+        setDialogText(err.message);
+        dialogController(true);
+      } else {
+        setDialogText('내부오류');
+        dialogController(true);
+      }
     });;
   }
   const backToLogin = () => {
@@ -80,7 +82,7 @@ const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDial
       </InputContainer>
       <ValidateText>{validatePassword(account.password)}</ValidateText>
       <ButtonContainer>
-        <JoinBtn onClick={joinValidate}>
+        <JoinBtn onClick={join}>
           <h1>회원가입</h1>
         </JoinBtn>
         <JoinBtn onClick={backToLogin}>

@@ -1,10 +1,14 @@
-import React , { useState }from 'react';
+import React , { useState, useEffect }from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom'
 import { AppDispatch } from '../../store/index'
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import { asyncLogoutFetch } from '../../store/user';
+import { RootState } from '../../store';
 import { asyncLoginFetch } from '../../store/user';
 import { validateEmail, validatePassword } from '../../utils/validate';
+import { getCookie } from '../../apis/cookie';
 
 type propsType = {
   dialogController: (dialogStatus: boolean) => void,
@@ -18,6 +22,18 @@ const LoginForm: React.FC<propsType> = ({dialogController, setDialogText}) => {
   });
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => {
+    return state.userStore.user;
+  });
+  //토큰삭제이후 로그인 페이지로 왔을 경우
+  useEffect(() => {
+    async function logoutCheck() {
+      if(user.id && !getCookie()){
+        await dispatch(asyncLogoutFetch());
+      }
+    }
+    logoutCheck();
+  })
   const login = async () => {
     if(!(account.email && account.password)) {
       setDialogText("이메일 비밀번호를 입력해주세요.");
@@ -30,17 +46,15 @@ const LoginForm: React.FC<propsType> = ({dialogController, setDialogText}) => {
     if(validatePassword(account.password)){
       return;
     }
-    else {
-      await dispatch(asyncLoginFetch({
-        email: account.email, nick: '', password: account.password, id: NaN
-      }))
-      .unwrap()
-      .then(() => { navigate('/'); })
-      .catch((err) => {
-        setDialogText(err.message);
-        dialogController(true);
-      });
-    }
+    await dispatch(asyncLoginFetch({
+      email: account.email, nick: '', password: account.password, id: NaN
+    }))
+    .unwrap()
+    .then(() => { navigate('/'); })
+    .catch((err) => {
+      setDialogText(err.message);
+      dialogController(true);
+    });
   }
   const makeAccount = () => {
     navigate('/join');
