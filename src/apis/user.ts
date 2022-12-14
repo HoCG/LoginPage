@@ -19,12 +19,8 @@ const updateUserInfo = (user: {}) => {
   return customAxios.patch('/user', { user })
 }
 
-const deleteUserInfo = (email: string, password: string) => {
-  const params = {
-    email: email,
-    password: password
-  }
-  return customAxios.delete('/user', { params })
+const logout = () => {
+  return customAxios.get('/auth/logout')
 }
 
-export { login, join, updateUserInfo, deleteUserInfo }; 
+export { login, join, logout, updateUserInfo }; 

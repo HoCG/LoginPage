@@ -5,7 +5,6 @@ import { getCookie } from './apis/cookie';
 import MainPage from "./pages/MainPage";
 const AuthRoute = () => {
   let isAuthorized = getCookie();
-  console.log(isAuthorized)
   return (
     !isAuthorized || isAuthorized === "undefined" ? <Navigate to="/login" /> : <MainPage/>
   );

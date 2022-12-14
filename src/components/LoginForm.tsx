@@ -15,9 +15,18 @@ justify-content: center;
 align-items: center;
 flex-direction: column;
 `;
+const InputContainer = styled.div`
+display: flex;
+flex-direction: row;
+margin-top: 2px;
+`;
 
 const Input = styled.input`
 border: 2px solid black;
+`;
+
+const InputText = styled.div`
+width: 100px;
 `;
 
 const ButtonContainer = styled.div`
@@ -32,14 +41,14 @@ const LoginBtn = styled.div`
 width: 130px;
 height: 80px;
 border-radius: 25px;
-background-color: purple;
-font-weight: 800;
+background-color: skyblue;
+font-weight: 700;
 margin-left: 20px;
 margin-right: 20px;
 cursor: pointer;
 `;
 
-const LoginForm: React.FC = () => {
+const LoginForm: React.FC= () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [account, setAccount] = useState({
@@ -47,8 +56,11 @@ const LoginForm: React.FC = () => {
     password: "",
   });
   const login = async () => {
-    await dispatch(asyncLoginFetch({userEmail: account.email, userNick: '', password: account.password}));
-    navigate("/");
+    await dispatch(asyncLoginFetch({
+      email: account.email, nick: '', password: account.password, id: NaN
+    }))
+    .unwrap()
+    .catch((err) => console.log(err));
   }
   const makeAccount = () => {
     navigate('/join');
@@ -62,14 +74,14 @@ const LoginForm: React.FC = () => {
   return (
     <LoginFormContainer>
       <h2>로그인 화면</h2>
-      <div>
-        <div>이메일</div>
+      <InputContainer>
+        <InputText>이메일:</InputText>
         <Input name="email" onChange={onChangeAccount}  type="text" />
-      </div>
-      <div>
-        <div>패스워드</div>
+      </InputContainer>
+      <InputContainer>
+        <InputText>패스워드:</InputText>
         <Input name="password" onChange={onChangeAccount} type="password" />
-      </div>
+      </InputContainer>
       <ButtonContainer>
         <LoginBtn onClick={login}>
           <h1>로그인</h1>

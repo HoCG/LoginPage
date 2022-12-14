@@ -17,38 +17,45 @@ flex-direction: column;
 `;
 
 const Input = styled.input`
-width: 300px;
+width: 200px;
 border: 2px solid black;
+`;
+
+const InputText = styled.div`
+width: 100px;
 `;
 
 const InputContainer = styled.div`
 display: flex;
-justify-content: right;
 flex-direction: row;
+margin-top: 2px;
 `;
 
 const ButtonContainer = styled.div`
+margin-top: 5px;
 display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: row;
-`
+`;
+
 const JoinBtn = styled.div`
 width: 130px;
 height: 80px;
 border-radius: 25px;
-background-color: purple;
-font-weight: 800;
+background-color: skyblue;
+font-weight: 700;
 margin-left: 20px;
 margin-right: 20px;
 cursor: pointer;
 `;
+
 type propsType = {
-  setDialog: React.Dispatch<React.SetStateAction<boolean>>,
+  dialogController: (dialogStatus: boolean) => void,
 };
 
 
-const JoinForm: React.FC<propsType> = ({setDialog}) => {
+const JoinForm: React.FC<propsType> = ({dialogController}) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [account, setAccount] = useState({
@@ -57,8 +64,14 @@ const JoinForm: React.FC<propsType> = ({setDialog}) => {
     password: "",
   });
   const join = async () => {
-    dispatch(asyncJoinFetch({userEmail: account.email, userNick: account.nick, password: account.password}));
-    setDialog(true);
+    await dispatch(asyncJoinFetch({
+      id: NaN, email: account.email, nick: account.nick, password: account.password
+    }))
+    .unwrap()
+    .then(() => { 
+      dialogController(true);
+    })
+    .catch((err) => console.log(err));;
   }
   const backToLogin = () => {
     navigate('/');
@@ -71,17 +84,17 @@ const JoinForm: React.FC<propsType> = ({setDialog}) => {
   };
   return (
     <JoinFormContainer>
-      <h2>로그인 화면</h2>
+      <h2>회원가입</h2>
       <InputContainer>
-        <div>이메일</div>
+        <InputText>이메일:</InputText>
         <Input name="email" onChange={onChangeAccount}  type="text" />
       </InputContainer>
       <InputContainer>
-        <div>닉네임</div>
+        <InputText>닉네임:</InputText>
         <Input name="nick" onChange={onChangeAccount}  type="text" />
       </InputContainer>
       <InputContainer>
-        <div>패스워드</div>
+        <InputText>패스워드:</InputText>
         <Input name="password" onChange={onChangeAccount} type="password" />
       </InputContainer>
       <ButtonContainer>
