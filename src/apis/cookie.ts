@@ -11,8 +11,8 @@ export const updateCookie = () => {
   }
 };
 
-export const removeCookie = (name: string) => {
-  cookies.remove(name);
+export const removeCookie = () => {
+  cookies.remove('access_token');
 };
 
 export const getCookie = () => {

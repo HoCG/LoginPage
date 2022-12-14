@@ -1,20 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import LoginForm from '../components/LoginForm';
-import { useNavigate } from 'react-router-dom';
+import LoginForm from '../components/forms/LoginForm';
 import { Navigate } from "react-router-dom";
 import { getCookie } from '../apis/cookie';
 
-const LoginPageDiv = styled.div`
-width: 100vw;
-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-`
-
 const LoginPage: React.FC = () => {
-  let isAuthorized = getCookie();
+  const isAuthorized = getCookie();
   return (
     !isAuthorized || isAuthorized === "undefined" ?
     <LoginPageDiv>
@@ -24,3 +15,11 @@ const LoginPage: React.FC = () => {
 }
 
 export default LoginPage;
+
+const LoginPageDiv = styled.div`
+width: 100vw;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+`

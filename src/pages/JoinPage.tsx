@@ -2,21 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TextDialog from '../components/dialogs/TextDialog';
-import JoinForm from '../components/JoinForm';
+import JoinForm from '../components/forms/JoinForm';
 import { Navigate } from "react-router-dom";
 import { getCookie } from '../apis/cookie';
 
-const JoinPageDiv = styled.div`
-width: 100vw;
-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-position: relative;
-`
-
 const JoinPage: React.FC = () => {
-  let isAuthorized = getCookie();
+  const isAuthorized = getCookie();
   const [dialog, setDialog] = useState(false)
   const navigate = useNavigate();
   const dialogController = (dialogStatus: boolean) => {
@@ -40,3 +31,12 @@ const JoinPage: React.FC = () => {
 }
 
 export default JoinPage;
+
+const JoinPageDiv = styled.div`
+width: 100vw;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative;
+`

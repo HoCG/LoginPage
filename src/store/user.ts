@@ -46,12 +46,6 @@ export const userSlice = createSlice({
     } as userInfo
   },
   reducers: {
-    resetUser: (state) => {
-      state.user.email = '';
-      state.user.id = NaN;
-      state.user.nick = '';
-      state.user.password = '';
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(asyncLoginFetch.pending, (state, action) => {});
@@ -62,12 +56,15 @@ export const userSlice = createSlice({
     builder.addCase(asyncJoinFetch.fulfilled, (state, action)=>{});
     builder.addCase(asyncLogoutFetch.pending, (state, action) => {});
     builder.addCase(asyncLogoutFetch.fulfilled, (state, action)=>{
-      resetUser();
+      state.user.email = '';
+      state.user.id = NaN;
+      state.user.nick = '';
+      state.user.password = '';
     });
   }
 })
 
-export { asyncLoginFetch, asyncJoinFetch }
-export const { resetUser } = userSlice.actions;
+export { asyncLoginFetch, asyncJoinFetch, asyncLogoutFetch }
+//export const { } = userSlice.actions;
 
 export default userSlice.reducer;

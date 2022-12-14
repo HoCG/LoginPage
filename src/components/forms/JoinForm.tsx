@@ -1,54 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { AppDispatch } from '../store/index'
+import { AppDispatch } from '../../store/index'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
-import { asyncJoinFetch } from '../store/user';
-
-const JoinFormContainer = styled.div`
-width: 500px;
-height: 350px;
-border-radius: 25px;
-border: 2px solid black;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-`;
-
-const Input = styled.input`
-width: 200px;
-border: 2px solid black;
-`;
-
-const InputText = styled.div`
-width: 100px;
-`;
-
-const InputContainer = styled.div`
-display: flex;
-flex-direction: row;
-margin-top: 2px;
-`;
-
-const ButtonContainer = styled.div`
-margin-top: 5px;
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: row;
-`;
-
-const JoinBtn = styled.div`
-width: 130px;
-height: 80px;
-border-radius: 25px;
-background-color: skyblue;
-font-weight: 700;
-margin-left: 20px;
-margin-right: 20px;
-cursor: pointer;
-`;
+import { asyncJoinFetch } from '../../store/user';
 
 type propsType = {
   dialogController: (dialogStatus: boolean) => void,
@@ -110,3 +65,50 @@ const JoinForm: React.FC<propsType> = ({dialogController}) => {
 }
 
 export default JoinForm;
+
+
+const JoinFormContainer = styled.div`
+width: 500px;
+height: 350px;
+border-radius: 25px;
+border: 2px solid black;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+`;
+
+const Input = styled.input`
+width: 200px;
+border: 2px solid black;
+border-radius: 10px;
+`;
+
+const InputText = styled.div`
+width: 100px;
+`;
+
+const InputContainer = styled.div`
+display: flex;
+flex-direction: row;
+margin-top: 2px;
+`;
+
+const ButtonContainer = styled.div`
+margin-top: 5px;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: row;
+`;
+
+const JoinBtn = styled.div`
+width: 130px;
+height: 80px;
+border-radius: 25px;
+background-color: skyblue;
+font-weight: 700;
+margin-left: 20px;
+margin-right: 20px;
+cursor: pointer;
+`;
