@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { AppDispatch } from '../../store/index'
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 import { useNavigate } from 'react-router-dom'
 import { asyncJoinFetch } from '../../store/user';
 import { validateEmail, validatePassword, validateNick } from '../../utils/validate';
+import LoadingForm from '../loadings/LoadingForm';
 
 type propsType = {
   dialogController: (dialogStatus: boolean) => void,
@@ -15,6 +18,7 @@ type propsType = {
 const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDialogSuccess}) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { loading } = useSelector((state: RootState) => state.userStore);
   const [account, setAccount] = useState({
     email: "",
     nick: "",
@@ -68,6 +72,8 @@ const JoinForm: React.FC<propsType> = ({dialogController, setDialogText, setDial
       [e.target.name]: e.target.value,
     });
   };
+  if (loading) 
+    return <LoadingForm></LoadingForm>
   return (
     <JoinFormContainer>
       <h2>회원가입</h2>
