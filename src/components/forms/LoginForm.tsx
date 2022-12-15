@@ -9,6 +9,7 @@ import { RootState } from '../../store';
 import { asyncLoginFetch } from '../../store/user';
 import { validateEmail, validatePassword } from '../../utils/validate';
 import { getCookie } from '../../apis/cookie';
+import LoadingForm from '../loadings/LoadingForm';
 
 type propsType = {
   dialogController: (dialogStatus: boolean) => void,
@@ -22,9 +23,7 @@ const LoginForm: React.FC<propsType> = ({dialogController, setDialogText}) => {
   });
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => {
-    return state.userStore.user;
-  });
+  const { user, loading } = useSelector((state: RootState) => state.userStore);
   //토큰삭제이후 로그인 페이지로 왔을 경우
   useEffect(() => {
     //비동기로직 실행을 위한 선언.
@@ -71,6 +70,8 @@ const LoginForm: React.FC<propsType> = ({dialogController, setDialogText}) => {
       [e.target.name]: e.target.value,
     });
   };
+  if (loading) 
+    return <LoadingForm></LoadingForm>
   return (
     <LoginFormContainer>
       <h2>로그인 화면</h2>

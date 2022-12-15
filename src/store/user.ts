@@ -43,23 +43,43 @@ export const userSlice = createSlice({
       email: ``,
       nick: ``,
       password: ``
-    } as userInfo
+    } as userInfo,
+    loading: false
   },
   reducers: {
   },
   extraReducers: (builder) => {
-    builder.addCase(asyncLoginFetch.pending, (state, action) => {});
+    builder.addCase(asyncLoginFetch.pending, (state, { payload }) => {
+      state.loading = true;
+    });
     builder.addCase(asyncLoginFetch.fulfilled, (state, { payload })=>{
+      state.loading = false;
       Object.assign(state.user, payload)
     });
-    builder.addCase(asyncJoinFetch.pending, (state, action) => {});
-    builder.addCase(asyncJoinFetch.fulfilled, (state, action)=>{});
-    builder.addCase(asyncLogoutFetch.pending, (state, action) => {});
-    builder.addCase(asyncLogoutFetch.fulfilled, (state, action)=>{
+    builder.addCase(asyncLoginFetch.rejected, (state, { payload })=>{
+      state.loading = false;
+    });
+    builder.addCase(asyncJoinFetch.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+    builder.addCase(asyncJoinFetch.fulfilled, (state, { payload })=>{
+      state.loading = false;
+    });
+    builder.addCase(asyncJoinFetch.rejected, (state, { payload })=>{
+      state.loading = false;
+    });
+    builder.addCase(asyncLogoutFetch.pending, (state, { payload }) => {
+      state.loading = true;
+    });
+    builder.addCase(asyncLogoutFetch.fulfilled, (state, { payload })=>{
+      state.loading = false;
       state.user.email = '';
       state.user.id = NaN;
       state.user.nick = '';
       state.user.password = '';
+    });
+    builder.addCase(asyncLogoutFetch.rejected, (state, { payload }) => {
+      state.loading = false;
     });
   }
 })

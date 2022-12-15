@@ -11,9 +11,7 @@ import { RootState } from '../../store';
 const NavBar: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => {
-    return state.userStore.user;
-  });
+  const { user } = useSelector((state: RootState) => state.userStore);
   const logout = async () => {
     await dispatch(asyncLogoutFetch())
     .unwrap()
@@ -30,7 +28,7 @@ const NavBar: React.FC = () => {
         ALBUM
       </NavBarTitleContainer>
       <NavBarUserInfo>
-        <div>welcome {user.nick}</div>
+        <div>welcome { user.nick }</div>
         <LogoutBtn onClick={logout}>로그아웃</LogoutBtn>
       </NavBarUserInfo>
     </NavBarContainer>
