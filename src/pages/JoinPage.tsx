@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import TextDialog from '../components/dialogs/TextDialog';
 import JoinForm from '../components/forms/JoinForm';
-import { Navigate } from "react-router-dom";
 import { getCookie } from '../apis/cookie';
 
 const JoinPage: React.FC = () => {
